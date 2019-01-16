@@ -15,6 +15,7 @@ mongoose.connect('mongodb://thiago:323Sowhat@ds157654.mlab.com:57654/blog', { us
 //  Create blog posts
 // seedDB();
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressSanitizer());
 app.use(express.static('public'));
@@ -45,7 +46,7 @@ app.get("/blogs/new", function(req, res){
 //  create route
 app.post("/blogs", function(req, res){
   //  create blog
-  req.body.blog.body = req.sanatize(req.body.blog.body);
+  req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.create(req.body.blog, function(err, newBlog){
     if(err){
       console.log(err);
@@ -85,7 +86,7 @@ app.get("/blogs/:id/edit", function(req, res){
 
 //  update route
 app.put("/blogs/:id", function(req, res){
-  req.body.blog.body = req.sanatize(req.body.blog.body);
+  req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
     if (err){
       console.log(err);
